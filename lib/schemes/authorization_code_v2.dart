@@ -45,6 +45,9 @@ class AuthorizationCodeV2 {
 
     final queries = Uri.splitQueryString(Uri.parse(resultURI!).query);
     if (queries['error'] != null) {
+      if (queries['error'] == 'access_denied') {
+        throw CanceledByUserException();
+      }
       throw Exception('Error Response: ${queries['error']}');
     }
 
